@@ -127,27 +127,7 @@ def register():
 
         # Check password length
         if len(password) < 6:
-            return "Error: Password must be at least 6 characters", 400
-
-        try:
-            # Connect to database
-            cursor = mysql.connection.cursor()
-
-            # Check if email already exists
-            cursor.execute("SELECT email FROM users WHERE email = %s", (email,))
-            if cursor.fetchone():
-                return "Error: This email is already registered", 400
-
-            # Hash password for security
-            hashed_password = generate_password_hash(password)
-
-            # Insert new user into database
-            cursor.execute(
-                "INSERT INTO users (name, email, password) VALUES (%s, %s, %s)",
-                (name, email, hashed_password)
-            )
-            mysql.connection.commit()
-            cursor.close()
+    
 
             # Redirect to login page
             return redirect(url_for('login'))
