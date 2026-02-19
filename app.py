@@ -159,25 +159,7 @@ def register():
     return REGISTER_PAGE
 
 
-# ============================================================================
-# ROUTE 3: LOGIN
-# ============================================================================
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    """
-    User login page
-    GET: Show login form
-    POST: Process login
-    """
-
-    if request.method == 'POST':
-        # Get data from form
-        email = request.form.get('email')
-        password = request.form.get('password')
-
-        # Check if fields are filled
-        if not email or not password:
             return "Error: Please fill all fields", 400
 
         try:
