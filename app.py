@@ -157,13 +157,18 @@ def register():
 
     # Show registration form (GET request)
     return REGISTER_PAGE
+# ============================================================================
+# ROUTE 3: LOGIN
+# ============================================================================
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
 
-
-            return "Error: Please fill all fields", 400
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
 
         try:
-            # Connect to database and find user
             cursor = mysql.connection.cursor()
             cursor.execute(
                 "SELECT id, password, name FROM users WHERE email = %s",
@@ -172,14 +177,10 @@ def register():
             user = cursor.fetchone()
             cursor.close()
 
-            # Check if user exists and password is correct
             if user and check_password_hash(user[1], password):
-                # Create session (like a login cookie)
                 session['user_id'] = user[0]
                 session['user_name'] = user[2]
                 session['user_email'] = email
-
-                # Redirect to dashboard
                 return redirect(url_for('dashboard'))
 
             return "Error: Invalid email or password", 401
@@ -187,7 +188,6 @@ def register():
         except Exception as e:
             return f"Error: {str(e)}", 500
 
-    # Show login form (GET request)
     return LOGIN_PAGE
 
 
